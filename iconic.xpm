@@ -1,0 +1,90 @@
+/* XPM */
+static char *iconic2[] = {
+/* width height num_colors chars_per_pixel */
+"    32    32        3            1",
+/* colors */
+". c #ffa500",
+"# c #000000",
+"a c #ff0000",
+/* pixels */
+"................................",
+".##############################.",
+".#aaaaaaaaaaaaaaaaa#aaa#aaaaaa#.",
+".#aaaaaaaaaaaaaaaaa#aaa#aaaaaa#.",
+".###################aaa####aaa#.",
+".#aaaaaa#aa#aaaaaaaaaaaaaa#aaa#.",
+".#aaaaaa#aa#aaaaaaaaaaaaaa#aaa#.",
+".#aaaaaa#aa#aaaaaaaaaaaaaa#aaa#.",
+".#aaaaaa#aa################aaa#.",
+".#aaaaaa#aaaaaaaaaa#aaa#aaaaaa#.",
+".#aaaaaa#aaaaaaaaaa#aaa#aaaaaa#.",
+".#aa#####aa#########aaa########.",
+".#aa#aaa#aa#.......#aaaaaaaaaa#.",
+".#aa#aaa#aa#.......#aaaaaaaaaa#.",
+".#aa#aaa#aa#.......#aaaaaaaaaa#.",
+".####aaa####.......########aaa#.",
+".#aaaaaaaaa#.......#aaaaaa#aaa#.",
+".#aaaaaaaaa#.......#aaaaaa#aaa#.",
+".#aaaaaaaaa#.......#aaaaaa#aaa#.",
+".####aaa###############aaa#####.",
+".#aa#aaa#aaa#aaaaaaaaa#aaaaaaa#.",
+".#aa#aaa#aaa#aaaaaaaaa#aaaaaaa#.",
+".#aa#aaa#aaa#aaaaaaaaa####aaaa#.",
+".#aa#####aaa########aaaaa#aaaa#.",
+".#aa#aaaaaaaaaaaaaa#######aaaa#.",
+".#aa#aaaaaaaaaaaaaa#aaaaa#aaaa#.",
+".#aa############aaa#aaaaa######.",
+".#aaaaaaaaaaaaa#aaa#aaaaaaaaaa#.",
+".#aaaaaaaaaaaaa#aaa#aaaaaaaaaa#.",
+".#aaaaaaaaaaaaa#aaa#aaaaaaaaaa#.",
+".##############################.",
+"................................"
+};
+SIMPLE  =                    T                                                  
+BITPIX  =                    8                                                  
+NAXIS   =                    2                                                  
+NAXIS1  =                   32                                                  
+NAXIS2  =                   32                                                  
+HISTORY Written by XV 3.10                                                      
+END                                                                             
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+ªª€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€ªªWWWWWWWWWWWWWW€WWWWWWWWWWWWWW€ªªWWWWWWWWWWWWWW
+€WWWWWWWWWWWWWW€ªªWWWWWWWWWWWWWW€WWWWWWWWWWWWWW€ªªWWW€WWWWWWWWWW€WWW€WWWWWWWWWW€
+ªªWWW€WWWWWWWWWW€WWW€WWWWWWWWWW€ªªWWW€WWWWWWWWWW€WWW€WWWWWWWWWW€ªªWWW€WWWWWWWWWW
+€WWW€WWWWWWWWWW€ªªWWW€WWW€WWWWWWWWWWWWWWWWWWWWW€ªªWWW€WWW€WWWWWWWWWWWWWWWWWWWWW€
+ªªWWW€WWW€WWWWWWWWWWWWWWWWWWWWW€ªª€€€€WWW€€€€€€€€€€€€€€€WWWW€€€€ªªWWWWWWWWWWWªªª
+ªªªª€WWWWWWWWWW€ªªWWWWWWWWWWWªªªªªªª€WWWWWWWWWW€ªªWWWWWWWWWWWªªªªªªª€WWWWWWWWWW€
+ªª€€€€WWW€€€€ªªªªªªª€€€€€€€€WWW€ªªWWW€WWW€WWWªªªªªªª€WWWWWWWWWW€ªªWWW€WWW€WWWªªª
+ªªªª€WWWWWWWWWW€ªªWWW€WWW€WWWªªªªªªª€WWWWWWWWWW€ªªWWWWWWW€WWWWWWWWWW€WWWWWWWWWW€
+ªªWWWWWWW€WWWWWWWWWW€WWWWWWWWWW€ªªWWWWWWW€WWWWWWWWWW€WWWWWWWWWW€ªªWWWWWWW€WWW€€€
+€€€€€€€€€€€€WWW€ªªWWWWWWW€WWWWWWWWWWWWWWWWWWWWW€ªªWWWWWWW€WWWWWWWWWWWWWWWWWWWWW€
+ªªWWWWWWW€WWWWWWWWWWWWWWWWWWWWW€ªª€€€€€€€€€€€€€€€€€€€WWW€€€€WWW€ªªWWWWWWWWWWWWWW
+WWWW€WWWWWWWWWW€ªªWWWWWWWWWWWWWWWWWW€WWWWWWWWWW€ªªWWWWWWWWWWWWWWWWWW€WWWWWWWWWW€ªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªªª€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€

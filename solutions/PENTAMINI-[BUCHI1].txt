@@ -1,0 +1,27 @@
+NOME SET:
+PENTAMINI
+
+NOME FIELD:
+BUCHI1
+
+NUMERO RIGHE FIELD:
+8
+
+NUMERO COLONNE FIELD:
+8
+
+
+
+SOLUZIONE NR. 1             Time: 00:00:00:02
+
+   0   0   0   0   0   3   3   3
+   8   2   2   2   2   5   5   3
+   8   8   @   2   9   @   5   3
+   6   8   8   9   9   9   5   5
+   6   6   6  11   9   4   4   1
+  10   6   @  11   7   @   4   1
+  10  10  11  11   7   4   4   1
+  10  10  11   7   7   7   1   1
+
+
+

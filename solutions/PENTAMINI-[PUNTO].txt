@@ -1,0 +1,27 @@
+NOME SET:
+PENTAMINI
+
+NOME FIELD:
+PUNTO
+
+NUMERO RIGHE FIELD:
+8
+
+NUMERO COLONNE FIELD:
+9
+
+
+
+SOLUZIONE NR. 1             Time: 00:00:00:06
+
+   @   @   0   0   0   0   0   @   @
+   @   1   1   1   1   2   6   6   @
+   7  11  11  11   1   2   2   6   6
+   7   7   7  11  11   2   4   6   4
+   7   9   3   3   3   2   4   4   4
+   9   9   9  10   3   5   5   8   8
+   @   9  10  10   3   5   8   8   @
+   @   @  10  10   5   5   8   @   @
+
+
+

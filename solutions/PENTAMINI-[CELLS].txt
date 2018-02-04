@@ -1,0 +1,26 @@
+NOME SET:
+PENTAMINI
+
+NOME FIELD:
+CELLS
+
+NUMERO RIGHE FIELD:
+7
+
+NUMERO COLONNE FIELD:
+11
+
+
+
+SOLUZIONE NR. 1             Time: 00:00:00:06
+
+   @   6   0   0   0   0   0  10  10  10   @
+   6   6   6   @   9   @   7   @  10  10   3
+   6   @   5   9   9   9   7   7   7   @   3
+   5   5   5   @   9   @   7   @   3   3   3
+   5   @   4   4   4   1   1   1   1   @   8
+  11  11   4   @   4   @   2   @   1   8   8
+   @  11  11  11   2   2   2   2   8   8   @
+
+
+

@@ -1,0 +1,26 @@
+/* XPM */
+static char *poly[] = {
+"20 20 3 1",
+"a	c orange",
+"b	c black",
+"c	c red",
+"aaaaaaaaaaaaaaaaaaaa"
+"aaaaaaaaaaaaaaaaaaaa"
+"aaaaaaaaaaaaaaaaaaaa"
+"aaaaaaaaaaaaaaaaaaaa"
+"aaaabbbbbbbbbbbbbbbb"
+"aaaabbbbbbbbbbbbbbbb"
+"aaaabbcccccccccccccc"
+"aaaabbcccccccccccccc"
+"aaaabbcccccccccccccc"
+"aaaabbcccccccccccccc"
+"aaaabbcccccccccccccc"
+"aaaabbcccccccccccccc"
+"aaaabbcccccccccccccc"
+"aaaabbcccccccccccccc"
+"aaaabbcccccccccccccc"
+"aaaabbcccccccccccccc"
+"aaaabbcccccccccccccc"
+"aaaabbcccccccccccccc"
+"aaaabbcccccccccccccc"
+"aaaabbcccccccccccccc"};

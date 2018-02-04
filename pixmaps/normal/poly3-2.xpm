@@ -1,0 +1,40 @@
+/* XPM */
+static char *poly[] = {
+"32 34 3 1",
+"a	c orange",
+"b	c black",
+"c	c red",
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"ccccccccccccccccccccccccccbbaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbaaaa"
+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbaaaa"};

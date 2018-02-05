@@ -4,7 +4,7 @@ This is a program that i wrote long ago.
 
 polymin try to fill a shape with a set of polyominoes.
 
-The definition of the set of pieces and the fields to fill are in the polymin.dat file and is self-explanatory.
+The definition of the set of pieces and the fields to fill are in the polymin.dat file; the format is self-explanatory.
 
 The solutions are saved in the solution folder and you can choose among three possibile format : ASCII,XPM,JPEG.
 

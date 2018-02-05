@@ -20,11 +20,8 @@ To compile correctly you have to install the libraries:
 
 
 lesstif
-
 xpm
-
 xmu
-
 jpeg
 
 

@@ -25,7 +25,8 @@ xmu
 jpeg
 
 
-It's possibile to crosscompilng under windows with cygwin.
+It's possibile to crosscompilng under windows with cygwin with
+X-windows installed.
 
 The program is not optimized at all and the search runs very slow.
 

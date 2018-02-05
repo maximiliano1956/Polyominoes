@@ -27,6 +27,6 @@ jpeg
 
 It's possibile to crosscompilng under windows with cygwin.
 
-The program is not optimized at all and the search run very slow.
+The program is not optimized at all and the search runs very slow.
 
 (Especially if you choose to view the search in continous view mode)

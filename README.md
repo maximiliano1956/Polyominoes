@@ -8,6 +8,8 @@ The definition of the set of pieces and the fields to fill are in the polymin.da
 
 The solutions are saved in the solution folder and you can choose among three possibile format : ASCII,XPM,JPEG.
 
+The pixmap folder contains xpm files that are used to view the polyminoes
+
 It's possibile to activate a check to find some simmetry in the solutions.
 
 It's also possibile to save a snapshot of the search and then reload it to continue later.

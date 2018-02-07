@@ -1,4 +1,4 @@
-# polyominoes
+# Polyominoes
 
 This is a program that i wrote long ago.
 

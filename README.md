@@ -19,10 +19,10 @@ The program run on Linux. To compile run "make"
 To compile correctly you have to install the libraries:
 
 
-lesstif
-xpm
-xmu
-jpeg
+libmotif-dev
+libxpm-dev
+libxmu-dev
+libjpeg-dev
 
 
 It's possibile to crosscompiling under windows with cygwin with

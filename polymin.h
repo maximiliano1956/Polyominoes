@@ -39,7 +39,8 @@
 
 #define ICONNAME	"iconic.xpm"
 
-#define	TIMEOUT		100.0
+//#define	TIMEOUT		100.0
+#define	TIMEOUT		10.0
 #define	DUTYNC		0.75
 #define DUTYC		0.25
 

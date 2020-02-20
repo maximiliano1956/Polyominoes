@@ -7,6 +7,8 @@ typedef void *locale_t;
 #include <string.h>
 #include <sys/time.h>
 #include <unistd.h>
+#include <pthread.h>
+#include <sched.h>
 
 #include <Xm/MainW.h>
 #include <Xm/DrawingA.h>
@@ -31,6 +33,7 @@ typedef void *locale_t;
 #include <xpm.h>
 
 #include "polymin.h"
+#include "dlx.h"
 
 #if USE_JPG
 #include <jpeglib.h>
@@ -138,6 +141,17 @@ void sensitive(void);
 void ge_start(Widget,XtPointer,XtPointer);
 void ge_stop(Widget,XtPointer,XtPointer);
 void ge_reset(Widget,XtPointer,XtPointer);
+
+void *GenMatDlx(void *);
+void InsPz(struct Poly_def *p_def,struct Pezzo *p_pez,int Nr,int Nc,struct Poly_field *p_field);
+void RemPz(struct Pezzo *p_pez,int Nr,int Nc,struct Poly_field *p_field);
+char *Pass;
+int coupez;
+XtIntervalId tim;
+int click_snap;
+int click_vis;
+int vised;
+int option_dlx;
 
 struct Poly_set *Begin;
 struct Solutions solutions;
@@ -353,11 +367,16 @@ char *pixmap_names[NUMPIX]=
 
 int main(int argc,char *argv[])
 {
+int noop;
 
 sz=SMALL;
+option_dlx=NO;
 
-if (argc>1)
-	if (!strcmp(argv[1],"-L")) sz=LARGE;
+for (noop=1;noop<argc;noop++)
+	{
+	if (!strcmp(argv[noop],"-L")) sz=LARGE;
+	if (!strcmp(argv[noop],"-DLX")) option_dlx=YES;
+	}
 
 if (Init(argv[0])) exit(1);
 
@@ -1891,6 +1910,8 @@ XColor col1;
 char *fallback[]={
 			"Polymins.*.background:gray76",
 		NULL};
+	
+XInitThreads();
 
 XtSetLanguageProc(NULL,NULL,NULL);
 
@@ -1974,6 +1995,8 @@ file_menu=XmVaCreateSimplePulldownMenu(menubar,"file_menu",0,file_cb,
 				        NULL);
 
 if ((widget=XtNameToWidget(file_menu,"button_1"))) XtSetSensitive(widget,False);
+if (option_dlx==YES)
+	if ((widget=XtNameToWidget(file_menu,"button_2"))) XtSetSensitive(widget,False);
 if ((widget=XtNameToWidget(file_menu,"button_3"))) XtSetSensitive(widget,False);
 
 selec_menu=XmVaCreateSimplePulldownMenu(menubar,"selec_menu",1,sel_cb,
@@ -2878,11 +2901,11 @@ void Gestimer(XtPointer call_data)
 {
 int esito;
 int click_sec;
-int click_vis;
-int click_snap;
+//int click_vis;
+//int click_snap;
 int der;
-XtIntervalId tim;
-int vised;
+//XtIntervalId tim;
+//int vised;
 
 struct timeval inizio;
 struct timeval corrente;
@@ -2912,7 +2935,10 @@ tim=XtAppAddTimeOut(app,timeout,(XtTimerCallbackProc)Gestimer,NULL);
 gettimeofday(&inizio,NULL);
 
 limite=timeout*duty+inizio.tv_sec*1000+inizio.tv_usec/1000;
-
+	
+if (option_dlx==YES)
+	return;
+	
 do
 	{
 	esito=0;
@@ -3094,9 +3120,11 @@ switch (item)
 			break;
 	case	1:	SaveSols();
 			break;
-	case	2:	RSnap();
+	case	2:	if (option_dlx==NO)
+				RSnap();
 			break;
-	case	3:	SSnap();
+	case	3:	if (option_dlx==NO)
+				SSnap();
 			break;
 	case	4:	GestAbout();
 			break;
@@ -3466,6 +3494,7 @@ void ge_start(Widget widget,XtPointer client_data,XtPointer call_data)
 Widget wdg;
 int nr;
 int nc;
+int stato_old;
 
 autosnp=NO;
 
@@ -3487,7 +3516,8 @@ if (stato==LIMBO || stato==SOSP)
 	if ((wdg=XtNameToWidget(file_menu,"button_0"))) XtSetSensitive(wdg,False);
 	if ((wdg=XtNameToWidget(file_menu,"button_1"))) XtSetSensitive(wdg,False);
 	if ((wdg=XtNameToWidget(file_menu,"button_2"))) XtSetSensitive(wdg,False);
-	if ((wdg=XtNameToWidget(file_menu,"button_3"))) XtSetSensitive(wdg,True);
+	if (option_dlx==NO)
+		if ((wdg=XtNameToWidget(file_menu,"button_3"))) XtSetSensitive(wdg,True);
 	if ((wdg=XtNameToWidget(file_menu,"button_5"))) XtSetSensitive(wdg,False);
 	XtSetSensitive(selec_menu,False);
 	XtSetSensitive(pushb_stop,True);
@@ -3499,9 +3529,13 @@ if (stato==LIMBO || stato==SOSP)
 	XtSetSensitive(arrow3,False);
 	XtSetSensitive(arrow4,False);
 	XtSetSensitive(XmOptionButtonGadget(option_menu1),False);
+	stato_old=stato;
 	stato=START;
 	GestIntest();
 	Gestimer(NULL);
+	if (option_dlx==YES)
+		if (stato_old==LIMBO)
+			RunThread();
 	}
 }
 
@@ -3553,7 +3587,8 @@ if (stato==SOSP)
 	XtSetSensitive(pushb_reset,False);
 	if ((wdg=XtNameToWidget(file_menu,"button_0"))) XtSetSensitive(wdg,True);
 	if ((wdg=XtNameToWidget(file_menu,"button_1")) && nsol>0) XtSetSensitive(wdg,True);
-	if ((wdg=XtNameToWidget(file_menu,"button_2"))) XtSetSensitive(wdg,True);
+	if (option_dlx==NO)
+		if ((wdg=XtNameToWidget(file_menu,"button_2"))) XtSetSensitive(wdg,True);
 	if ((wdg=XtNameToWidget(file_menu,"button_3"))) XtSetSensitive(wdg,False);
 	if ((wdg=XtNameToWidget(file_menu,"button_5"))) XtSetSensitive(wdg,True);
 	XtSetSensitive(XmOptionButtonGadget(option_menu1),True);
@@ -3633,8 +3668,13 @@ item=(long int)client_data;
 
 switch (item)
 	{
-	case	0:	tipovis=CONTINOUS;
-			duty=DUTYC;
+	case	0:	if (option_dlx==NO)
+				{
+				tipovis=CONTINOUS;
+				duty=DUTYC;
+				}
+			else
+				Refresh_options();
 			break;
 	case	1:	tipovis=ONSOL;
 			duty=DUTYNC;
@@ -3739,7 +3779,10 @@ switch (item)
 			break;
 	case	1:	fmt_save=PIXMAP;
 			break;
-	case	2:	fmt_save=JPG;
+	case	2:	if (option_dlx==NO)
+				fmt_save=JPG;
+			else
+				Refresh_options();
 			break;
 	}
 }
@@ -4527,7 +4570,10 @@ strcat(namesol,name_sel_set);
 strcat(namesol,"-[");
 strcat(namesol,name_sel_field);
 strcat(namesol,"]");
-
+	
+if (ckder==YES)
+	strcat(namesol,"_nosymm");
+	
 switch (ftype)
 	{
 	case TEXT:	strcat(namesol,".txt");
@@ -4799,11 +4845,12 @@ if (nsol>0 && stato==LIMBO)
 	if ((widget=XtNameToWidget(file_menu,"button_1"))) XtSetSensitive(widget,True);
 	XtSetSensitive(showsol,True);
 	}
-if (stato!=LIMBO)
+if (stato!=LIMBO && option_dlx==NO)
 	if ((widget=XtNameToWidget(file_menu,"button_3"))) XtSetSensitive(widget,True);
 if (stato==LIMBO)
 	{
-	if ((widget=XtNameToWidget(file_menu,"button_2"))) XtSetSensitive(widget,True);
+	if (option_dlx==NO)
+		if ((widget=XtNameToWidget(file_menu,"button_2"))) XtSetSensitive(widget,True);
 	if ((widget=XtNameToWidget(file_menu,"button_0"))) XtSetSensitive(widget,True);
 	if ((widget=XtNameToWidget(file_menu,"button_4"))) XtSetSensitive(widget,True);
 	if ((widget=XtNameToWidget(file_menu,"button_5"))) XtSetSensitive(widget,True);
@@ -4826,7 +4873,8 @@ switch (stato)
 			break;
 	}
 
-XtSetSensitive(XmOptionButtonGadget(option_menu),True);
+if (option_dlx==NO)
+	XtSetSensitive(XmOptionButtonGadget(option_menu),True);
 if (stato==LIMBO) XtSetSensitive(XmOptionButtonGadget(option_menu1),True);
 XtSetSensitive(XmOptionButtonGadget(option_menu2),True);
 XtSetSensitive(XmOptionButtonGadget(option_menu3),True);
@@ -4834,7 +4882,9 @@ XtSetSensitive(XmOptionButtonGadget(option_menu4),True);
 XtSetSensitive(XmOptionButtonGadget(option_menu5),True);
 XtSetSensitive(XmOptionButtonGadget(option_menu6),True);
 XtSetSensitive(scale_vis,True);
-XtSetSensitive(scale_snp,True);
+
+if (option_dlx==NO)
+	XtSetSensitive(scale_snp,True);
 
 if (stato==LIMBO && nsol>0)
 	XtSetSensitive(showsol,True);
@@ -4980,7 +5030,8 @@ ind+=sizeof(int);
 click=*(int *)&record[ind];
 ind+=sizeof(int);
 
-mode=*(int *)&record[ind];
+if (*(int *)&record[ind]==AUTO || option_dlx==NO)
+	mode=*(int *)&record[ind];
 ind+=sizeof(int);
 
 ckder=*(int *)&record[ind];
@@ -4989,7 +5040,8 @@ ind+=sizeof(int);
 waitsol=*(int *)&record[ind];
 ind+=sizeof(int);
 
-tipovis=*(int *)&record[ind];
+if (*(int *)&record[ind]==ONTIMEOUT || *(int *)&record[ind]==ONSOL || option_dlx==NO)
+	tipovis=*(int *)&record[ind];
 ind+=sizeof(int);
 
 duty=*(float *)&record[ind];
@@ -4998,16 +5050,19 @@ ind+=sizeof(float);
 save=*(int *)&record[ind];
 ind+=sizeof(int);
 
-autosnap=*(int *)&record[ind];
+if (option_dlx==NO)
+	autosnap=*(int *)&record[ind];
 ind+=sizeof(int);
 
-fmt_save=*(int *)&record[ind];
+if (*(int *)&record[ind]==ASCII || *(int *)&record[ind]==PIXMAP || option_dlx==NO)
+	fmt_save=*(int *)&record[ind];
 ind+=sizeof(int);
 
 previs=*(int *)&record[ind];
 ind+=sizeof(int);
 
-presnap=*(int *)&record[ind];
+if (option_dlx==NO)
+	presnap=*(int *)&record[ind];
 ind+=sizeof(int);
 
 lenrec_ori=lenrec;
@@ -5133,7 +5188,6 @@ lenrec=lenrec_ori;
 
 return(OKAY);
 }
-
 
 
 /********************************/
@@ -5673,6 +5727,9 @@ option_menu=XmVaCreateSimpleOptionMenu(rc1,"option_menu",runmode,'R',def,option_
 
 XtManageChild(option_menu);
 
+if (option_dlx==YES)
+	XtSetSensitive(XmOptionButtonGadget(option_menu),False);
+
 XmStringFree(runmode);
 XmStringFree(autom);
 XmStringFree(step);
@@ -5770,6 +5827,9 @@ option_menu5=XmVaCreateSimpleOptionMenu(rc1,"option_menu5",snap,'A',def,option_c
 
 XtManageChild(option_menu5);
 
+if (option_dlx==YES)
+	XtSetSensitive(XmOptionButtonGadget(option_menu5),False);
+
 XmStringFree(snap);
 XmStringFree(snapon);
 XmStringFree(snapoff);
@@ -5854,7 +5914,9 @@ scale_snp=XtVaCreateManagedWidget("s_timer",	xmScaleWidgetClass,	form_w2,
 						XmNleftAttachment,		XmATTACH_POSITION,
 						XmNleftPosition,		3,
 						NULL);
-
+if (option_dlx==YES)
+	XtSetSensitive(scale_snp,False);
+	
 XtAddCallback(scale_snp,XmNvalueChangedCallback,snap_cb,NULL);
 }
 
@@ -6117,4 +6179,393 @@ XtVaSetValues(scale_vis,	XmNvalue,	previs,
 				NULL);
 XtVaSetValues(scale_snp,	XmNvalue,	presnap,
 				NULL);
+}
+
+
+int vis(int rows_size, int *rows)
+{
+int i,j,k;
+int ind;
+char **fld;
+char cc;
+int nump;
+int der;
+
+fld=malloc((p_field->nr)*sizeof(char **));
+
+for (i=0;i<p_field->nr;i++)
+		fld[i]=malloc(p_field->nc);
+
+for (j=0;j<p_field->nr;j++)
+      	for (k=0;k<p_field->nc;k++)
+		fld[j][k]=0;
+
+ind=0;
+
+for (i=0;i<rows_size;i++)
+       	{
+       	ind = (numpez+coupez)*rows[i];
+
+       	for (j=0;j<numpez;j++)
+               	if (Pass[ind++]==1)
+			nump=j+2;
+       	for (j=0;j<p_field->nr;j++)
+               	for (k=0;k<p_field->nc;k++)
+                       	{
+                       	if (p_field->field[j][k]==1)
+                               	fld[j][k]=1;
+                       	else
+                               	{
+                               	if (Pass[ind++]==1)
+                                       	fld[j][k] = nump;
+                               	}
+			}
+       	}
+
+for (j=0;j<p_field->nr;j++)
+       	for (k=0;k<p_field->nc;k++)
+               	p_field->field[j][k]=fld[j][k];
+
+free(fld);
+
+XLockDisplay(dsp);
+DrawField(win,p_field->nr,p_field->nc,p_field->field);
+XUnlockDisplay(dsp);
+vised=YES;
+}
+
+int visualize(int rows_size, int *rows)
+{
+if (tipovis==ONTIMEOUT && vised==NO && click%click_vis==0)
+	vis(rows_size,rows);
+
+return 0;
+}
+
+int callback1(int rows_size, int *rows, void *data)
+{
+int i,j,k;
+int ind;
+char **soluz;
+char cc;
+int nump;
+int der;
+
+soluz=malloc((p_field->nr)*sizeof(char **));
+
+for (i=0;i<p_field->nr;i++)
+	soluz[i]=malloc(p_field->nc);
+
+*((int*)data) += 1;
+
+printf("Soluzione nr. %d\n",*(int *)data);
+
+ind=0;
+
+for (i=0;i<rows_size;i++)
+        {
+        ind = (numpez+coupez)*rows[i];
+
+        for (j=0;j<numpez;j++)
+                if (Pass[ind++]==1)
+			nump=j+2;
+        for (j=0;j<p_field->nr;j++)
+                for (k=0;k<p_field->nc;k++)
+                        {
+                        if (p_field->field[j][k]==1)
+                                soluz[j][k]=1;
+                        else
+                                {
+                                if (Pass[ind++]==1)
+                                        soluz[j][k] = nump;
+                                }
+			}
+        }
+
+for (j=0;j<p_field->nr;j++)
+	{
+        for (k=0;k<p_field->nc;k++)
+                printf("%3d",soluz[j][k]);
+        printf("\n");
+        }
+printf("\n");
+
+for (j=0;j<p_field->nr;j++)
+        for (k=0;k<p_field->nc;k++)
+                p_field->field[j][k]=soluz[j][k];
+
+free(soluz);
+
+XLockDisplay(dsp);
+DrawField(win,p_field->nr,p_field->nc,p_field->field);
+der=CaricaSol(p_field);
+ViewSol(der);
+if (der==-1 && save)
+	{
+	if (AppendSol(TEXT,0) || AppendSol(GRAPHIC,nsol))
+	PostDialog(toplevel,XmDIALOG_ERROR,"Write error!",0);
+	}
+if (waitsol)
+	{
+        stato=SOSP;
+        GestIntest();
+        XtRemoveTimeOut(tim);
+        XtSetSensitive(pushb_start,True);
+        XtSetSensitive(pushb_stop,False);
+        XtSetSensitive(pushb_reset,True);
+        }
+XUnlockDisplay(dsp);
+
+return 0;
+}
+
+/********************************/
+/*				*/
+/*	    GenMatDlx		*/
+/*				*/
+/********************************/
+
+/* INPUT:	*/
+/* OUTPUT:	*/
+/*		*/
+
+void *GenMatDlx(void *arg)
+{
+struct Poly_def *pdef;
+struct Pezzo *ppez;
+char *MatDlx;
+
+int lencol;
+int nr;
+int nc;
+int nr1;
+int nc1;
+int Nr;
+int Nc;
+int size;
+int nclas;
+int ncol;
+int ind;
+int ind1;
+int count;
+int i;
+int j;
+int k;
+struct dlx_Node *header;
+int solutions;
+int click_copia;
+int nrz=0;
+
+click_copia=click;
+
+size=0;
+
+pdef=p_tpez;
+nclas=0;
+
+Nr=p_field->nr;
+Nc=p_field->nc;
+
+lencol=p_field->nr*p_field->nc+numpez;
+
+MatDlx=malloc(0);
+
+ncol=0;
+
+while (pdef)
+	{
+	ppez=pdef->testa;
+	while (ppez)
+		{
+		for (nr=0;nr<Nr;nr++)
+			for (nc=0;nc<Nc;nc++)
+				{
+				if (stato==LIMBO)
+					pthread_exit(NULL);
+				if (TesPez(ppez,p_field,nr,nc)==YES)
+					{
+					if (tipovis==ONTIMEOUT && vised==NO && click-click_copia>=click_vis)
+						{
+						click_copia=click;
+						InsPz(pdef,ppez,nr,nc,p_field);
+						XLockDisplay(dsp);
+						DrawField(win,p_field->nr,p_field->nc,p_field->field);
+						XUnlockDisplay(dsp);
+						RemPz(ppez,nr,nc,p_field);
+						vised=YES;
+						}
+						
+					if ((MatDlx=realloc(MatDlx,size+lencol))==NULL)
+						{
+						printf("\nNot enough memory!\n\n");
+						return(ERR);
+						}
+					memset(&MatDlx[size],0,lencol);
+		
+					MatDlx[size+nclas]=1;
+		
+					for (nc1=0;nc1<ppez->nc;nc1++)
+        					if (ppez->pezzo[0][nc1])
+                					{
+                					nrz=nc1;
+                					break;
+                					}
+					for (nr1=0;nr1<ppez->nr;nr1++)
+        					for (nc1=0;nc1<ppez->nc;nc1++)
+                					if (ppez->pezzo[nr1][nc1])
+                        					MatDlx[size+numpez+(nr+nr1)*Nc+(nc+nc1-nrz)]=1;
+		
+					size+=lencol;
+					ncol++;
+					}
+				}
+		ppez=ppez->next;
+		}
+	nclas++;
+	pdef=pdef->next;
+	}
+/*
+ind=0;
+for (nc=0;nc<ncol;nc++)
+	{
+	for (nr=0;nr<numpez;nr++)
+		printf("%1d",MatDlx[ind++]);
+		printf("\n");
+	for (nr=0;nr<p_field->nr;nr++)
+		{
+		for (nc1=0;nc1<p_field->nc;nc1++)
+			printf("%1d",MatDlx[ind++]);
+		printf("\n");
+		}
+	printf("\n");
+	}
+
+ind=0;
+for (nc=0;nc<ncol;nc++)
+	{
+	for (nr=0;nr<numpez+p_field->nr*p_field->nc;nr++)
+		printf("%1d",MatDlx[ind++]);
+	printf("\n");
+	}
+*/
+
+coupez=0;
+for (j=0;j<p_field->nr;j++)
+        for (k=0;k<p_field->nc;k++)
+                if (p_field->field[j][k]==0)
+                        coupez++;
+
+Pass=malloc(ncol*(numpez+coupez));
+
+ind=0;
+ind1=0;
+for (i=0;i<ncol;i++)
+        {
+        for (j=0;j<numpez;j++)
+                Pass[ind++]=MatDlx[ind1++];
+        for (j=0;j<p_field->nr;j++)
+                for (k=0;k<p_field->nc;k++)
+			{
+                        if (p_field->field[j][k]==0)
+                                Pass[ind++]=MatDlx[ind1];
+                        ind1++;
+			}
+        }
+
+free(MatDlx);
+
+solutions=0;
+
+header=dlx_alloc(Pass,ncol,numpez+coupez);
+dlx_solve(header, callback1, &solutions);
+dlx_free(header);
+
+free(Pass);
+
+XLockDisplay(dsp);
+stato=LIMBO;
+GestIntest();
+ViewEnd();
+XtRemoveTimeOut(tim);
+if (save==NO && nsol) SaveSols();
+else sensitive();
+XUnlockDisplay(dsp);
+
+return(0);
+}
+
+
+void RunThread(void)
+{
+int err;
+pthread_t th;
+pthread_attr_t tattr;
+struct sched_param param;
+
+/* initialized with default attributes */
+pthread_attr_init(&tattr);
+
+/* safe to get existing scheduling param */
+pthread_attr_getschedparam(&tattr, &param);
+
+/* set the priority; others are unchanged */
+param.sched_priority = 7;
+
+/* setting the new scheduling param */
+pthread_attr_setschedparam (&tattr, &param);
+
+err = pthread_create(&th, &tattr, &GenMatDlx, NULL);
+}
+
+void checkEsecuz(void)
+{
+if (autosnap && click%click_snap==0 && autosnp==NO)
+        SSnap();
+
+while (stato!=START || autosnp==YES)
+	{
+	sleep(1);
+	if (stato==LIMBO)
+		pthread_exit(NULL);
+	}
+}
+
+
+void InsPz(struct Poly_def *p_def,struct Pezzo *p_pez,int Nr,int Nc,struct Poly_field *p_field)
+{
+int nr;
+int nc;
+
+int nrz=0;
+
+for (nc=0;nc<p_pez->nc;nc++)
+	if (p_pez->pezzo[0][nc])
+		{
+		nrz=nc;
+		break;
+		}
+
+for (nr=0;nr<p_pez->nr;nr++)
+	for (nc=0;nc<p_pez->nc;nc++)
+		if (p_pez->pezzo[nr][nc])
+			p_field->field[Nr+nr][Nc+nc-nrz]=p_def->Poly_num+2;
+}
+
+void RemPz(struct Pezzo *p_pez,int Nr,int Nc,struct Poly_field *p_field)
+{
+int nr;
+int nc;
+
+int nrz=0;
+for (nc=0;nc<p_pez->nc;nc++)
+	if (p_pez->pezzo[0][nc])
+		{
+		nrz=nc;
+		break;
+		}
+
+for (nr=0;nr<p_pez->nr;nr++)
+	for (nc=0;nc<p_pez->nc;nc++)
+		if (p_pez->pezzo[nr][nc])
+			p_field->field[Nr+nr][Nc+nc-nrz]=0;
 }

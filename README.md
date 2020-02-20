@@ -31,3 +31,7 @@ X-windows installed.
 The program is not optimized at all and the search runs very slow.
 
 (Especially if you choose to view the search in continous view mode)
+
+New to version 2.0 :
+
+launch option -DLX to activate the new searching algorythm that is superfast.

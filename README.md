@@ -34,4 +34,4 @@ The program is not optimized at all and the search runs very slow.
 
 New to version 2.0 :
 
-launch option -DLX to activate the new searching algorythm that is superfast.
+launch option -DLX to activate the new searching algorithm that is superfast.
